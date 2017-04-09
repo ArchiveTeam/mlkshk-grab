@@ -44,7 +44,7 @@ allowed = function(url, parenturl)
     return false
   end
 
-  if item_type == "posts" then
+  if item_type == "posts" or item_type == "images" then
     for s in string.gmatch(url, "([0-9A-Z]+)[0-9A-Z]") do
       if allowed_strings[s] == true then
         return true

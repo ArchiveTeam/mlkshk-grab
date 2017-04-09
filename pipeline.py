@@ -58,7 +58,7 @@ if not WGET_LUA:
 #
 # Update this each time you make a non-cosmetic change.
 # It will be added to the WARC files and reported to the tracker.
-VERSION = "20170307.01"
+VERSION = "20170409.01"
 USER_AGENT = 'ArchiveTeam'
 TRACKER_ID = 'mlkshk'
 TRACKER_HOST = 'tracker.archiveteam.org'
@@ -197,14 +197,21 @@ class WgetArgs(object):
         item['item_type'] = item_type
         item['item_value'] = item_value
 
+        id_chars = string.ascii_uppercase + string.digits
+
         if item_type == 'user':
             wget_args.extend(['--warc-header', 'mlkshk-user: {i}'.format(**locals())])
             wget_args.append('https://mlkshk.com/user/' + item_value)
         elif item_type == 'posts':
-            for s in string.ascii_uppercase + string.digits:
+            for s in id_chars:
                 post_id = item_value + s
                 wget_args.extend(['--warc-header', 'mlkshk-post-id: {post_id}'.format(**locals())])
                 wget_args.append('https://mlkshk.com/p/{post_id}'.format(**locals()))
+        elif item_type == 'images':
+            for s in id_chars:
+                post_id = item_value + s
+                wget_args.extend(['--warc-header', 'mlkshk-post-image-id: {post_id}'.format(**locals())])
+                wget_args.append('http://s.mlkshk-cdn.com/r/{post_id}'.format(**locals()))
         else:
             raise Exception('Unknown item')
 
