@@ -69,6 +69,10 @@ wget.callbacks.download_child_p = function(urlpos, parent, depth, start_url_pars
     return false
   end
 
+  if item_type == "user" and string.match(url, "^https?://s%.mlkshk%.com/") then
+    return false
+  end
+
   if (downloaded[url] ~= true and addedtolist[url] ~= true)
      and (allowed(url, parent["url"]) or html == 0) then
     addedtolist[url] = true
